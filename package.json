@@ -1,0 +1,28 @@
+{
+  "name": "@flipgive/sdk-node",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BetterTheWorld/FlipGiveSDK_node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BetterTheWorld/FlipGiveSDK_node/issues"
+  },
+  "homepage": "https://github.com/BetterTheWorld/FlipGiveSDK_node#readme",
+  "description": "",
+  "dependencies": {
+    "jose": "^5.2.0"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.3"
+  }
+}
