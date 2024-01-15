@@ -2,11 +2,41 @@ import { Buffer } from 'node:buffer';
 import * as jose from 'jose';
 
 /**
+ * @typedef UserData
+ * @property {string} id
+ * @property {string} email
+ * @property {string} name
+ * @property {string} country
+ */
+
+/**
+ * @typedef CampaignData
+ * @property {string} id
+ * @property {string} name
+ * @property {string} category
+ * @property {string} country
+ * @property {UserData} admin_data
+ */
+
+/**
+ * @typedef GroupData
+ * @property {string} name
+ * @property {string} [player_number]
+ */
+
+/**
+ * @typedef OrganizationData
+ * @property {string} id
+ * @property {string} name
+ * @property {UserData} admin_data
+ */
+
+/**
  * @typedef Payload
- * @property {object} [campaign_data]
- * @property {object} [group_data]
- * @property {object} [organization_data]
- * @property {object} [user_data]
+ * @property {CampaignData} [campaign_data]
+ * @property {GroupData} [group_data]
+ * @property {OrganizationData} [organization_data]
+ * @property {UserData} [user_data]
  * @property {string} [type]
  * @property {number} [expires]
  */
@@ -130,7 +160,7 @@ const ShopCloud = async (cloudShopId, secret) => {
 
   /**
    * @param {string} key
-   * @param {Object.<string, any>} data
+   * @param {UserData} data
    */
   const validatePersonData = (key, data) => {
     validatePresence(key, data, 'id');
@@ -141,7 +171,7 @@ const ShopCloud = async (cloudShopId, secret) => {
 
   /**
    * @param {string} key
-   * @param {Object.<string, any>} data
+   * @param {CampaignData} data
    */
   const validateCampaignData = (key, data) => {
     validatePresence(key, data, 'id');
@@ -152,7 +182,7 @@ const ShopCloud = async (cloudShopId, secret) => {
   };
 
   /**
-   * @param {Object.<string, any>} data
+   * @param {GroupData} data
    */
   const validateGroupnData = data => {
     if (!data.name) {
@@ -162,7 +192,7 @@ const ShopCloud = async (cloudShopId, secret) => {
 
   /**
    * @param {string} key
-   * @param {Object.<string, any>} data
+   * @param {OrganizationData} data
    */
   const validateOrganizationData = (key, data) => {
     validatePresence(key, data, 'id');
@@ -197,7 +227,8 @@ const ShopCloud = async (cloudShopId, secret) => {
     getPartnerToken,
     identifiedToken,
     readToken,
-    getErrors
+    getErrors,
+    validIdentified
   }
 };
 

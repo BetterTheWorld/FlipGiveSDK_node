@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import ShopCloud from './index.js';
 
 const getCampaignData = () => ({
-  id: Math.floor(Math.random() * 1000),
+  id: Math.floor(Math.random() * 1000).toString(),
   name: faker.person.fullName(),
   category: 'Running',
   country: 'CAN',
@@ -15,13 +15,13 @@ const getGroupData = () => ({
 });
 
 const getOrganizationData = () => ({
-  id: Math.floor(Math.random() * 1000000),
+  id: Math.floor(Math.random() * 1000000).toString(),
   name: faker.word.noun(),
   admin_data: getPersonData()
 });
 
 const getPersonData = () => ({
-  id: Math.floor(Math.random() * 1000000),
+  id: Math.floor(Math.random() * 1000000).toString(),
   name: faker.person.fullName(),
   email: faker.internet.email(),
   country: 'CAN',
@@ -55,7 +55,8 @@ test('exception is thrown for invalid payload', () => {
 
 test('errors in user data are caught', async () => {
   await shopCloud
-    .identifiedToken({ user_data: [] })
+     // @ts-ignore
+    .identifiedToken({ user_data: {} })
     .catch(() => {
       const errors = shopCloud.getErrors();
 
@@ -69,7 +70,8 @@ test('errors in user data are caught', async () => {
 
 test('errors in campaign data are caught', async () => {
   await shopCloud
-    .identifiedToken({ campaign_data: [] })
+     // @ts-ignore
+    .identifiedToken({ campaign_data: {} })
     .catch(() => {
       const errors = shopCloud.getErrors();
 
