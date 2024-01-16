@@ -16,7 +16,7 @@ To begin using `@flipgive/shop-cloud`, you should have obtained an `ID` and `Sec
 Add the @flipgive/shopcloud package to your package.json:
 
 ```bash
-npm install --save @flipgive/shopcloud
+npm install --save @flipgive/shopcloud git+https://github.com/BetterTheWorld/FlipGiveSDK_node.git
 ```
 
 After you have installed the package include the code below to initialize the ShopCloud:
