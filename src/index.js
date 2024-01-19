@@ -1,5 +1,4 @@
-import { Buffer } from 'node:buffer';
-import * as jose from 'jose';
+import JweHelper from './jwe-helper';
 
 /**
  * @typedef UserData
@@ -39,11 +38,6 @@ import * as jose from 'jose';
  * @property {UserData} [user_data]
  * @property {string} [type]
  * @property {number} [expires]
- */
-
-/**
- * @param {string} cloudShopId
- * @param {string} secret
  */
 
 const COUNTRIES = ['CAN', 'USA'];
@@ -230,43 +224,6 @@ const ShopCloud = async (cloudShopId, secret) => {
     getErrors,
     validIdentified
   }
-};
-
-/**
- * @param {string} secret
- */
-const JweHelper = async (secret) => {
-  const key = await jose.importJWK({
-    kty: 'oct',
-    k: Buffer.from(secret).toString('base64')
-  });
-
-  /**
-   * @param {Payload} payload
-   */
-  const encrypt = async (payload) => {
-    const jwe = new jose.CompactEncrypt(
-      new TextEncoder().encode(JSON.stringify(payload))
-    );
-
-    return jwe.setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
-      .encrypt(key);
-  };
-
-  /**
-   * @param {string} token
-   * @returns {Promise<Payload>}
-   */
-  const decrypt = async (token) => {
-    const { plaintext } = await jose.compactDecrypt(token, key);
-
-    return JSON.parse(new TextDecoder().decode(plaintext));
-  };
-
-  return {
-    decrypt,
-    encrypt
-  };
 };
 
 export default ShopCloud;

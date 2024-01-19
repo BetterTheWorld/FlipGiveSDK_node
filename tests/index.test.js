@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { faker } from '@faker-js/faker';
-import ShopCloud from './index.js';
+import ShopCloud from '../src/index.js';
 
 const getCampaignData = () => ({
   id: Math.floor(Math.random() * 1000).toString(),

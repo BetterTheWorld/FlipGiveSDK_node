@@ -1,9 +1,16 @@
 {
   "name": "@flipgive/shopcloud",
   "version": "1.0.0",
-  "main": "index.js",
+  "exports": {
+    "import": "./dist/mjs/index.js",
+    "require": "./dist/cjs/index.js"
+  },
   "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/mjs/index.js",
   "scripts": {
+    "build": "rm -rf dist && rollup -c && node add-package-json-files.js",
+    "prepare": "npm run build",
     "test": "vitest"
   },
   "repository": {
@@ -22,6 +29,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@types/node": "^20.11.5",
+    "rollup": "^4.9.5",
     "typescript": "^5.3.3",
     "vitest": "^1.1.3"
   }
