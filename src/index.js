@@ -47,7 +47,7 @@ const PARTNER_TOKEN_TTL = 3600; // seconds
  * @param {string} cloudShopId
  * @param {string} secret
  */
-const ShopCloud = async (cloudShopId, secret) => {
+const Rewards = async (cloudShopId, secret) => {
   secret = secret.replace(/^sk_/, '');
 
   /**
@@ -226,4 +226,4 @@ const ShopCloud = async (cloudShopId, secret) => {
   }
 };
 
-export default ShopCloud;
+export default Rewards;

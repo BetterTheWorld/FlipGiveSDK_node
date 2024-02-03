@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { faker } from '@faker-js/faker';
-import ShopCloud from '../src/index.js';
+import Rewards from '../src/index.js';
 
 const getCampaignData = () => ({
   id: Math.floor(Math.random() * 1000).toString(),
@@ -29,10 +29,10 @@ const getPersonData = () => ({
 
 const CLOUD_SHOP_ID = 'A2DE537C';
 const SECRET = 'sk_61c394cf3346077b';
-const shopCloud = await ShopCloud(CLOUD_SHOP_ID, SECRET);
+const rewards = await Rewards(CLOUD_SHOP_ID, SECRET);
 
 test('token is generated and cloud shop ID is appended', async () => {
-  const token = await shopCloud.identifiedToken({
+  const token = await rewards.identifiedToken({
     user_data: getPersonData(),
     campaign_data: getCampaignData()
   });
@@ -41,24 +41,24 @@ test('token is generated and cloud shop ID is appended', async () => {
 });
 
 test('exception is thrown if token does not match cloud store id', async () => {
-  const token = (await shopCloud.identifiedToken({
+  const token = (await rewards.identifiedToken({
     user_data: getPersonData(),
     campaign_data: getCampaignData()
   })).replace(CLOUD_SHOP_ID, 'foobar');
 
-  expect(() => shopCloud.readToken(token)).toThrowError();
+  expect(() => rewards.readToken(token)).toThrowError();
 });
 
 test('exception is thrown for invalid payload', () => {
-  expect(() => shopCloud.identifiedToken({})).rejects.toThrowError();
+  expect(() => rewards.identifiedToken({})).rejects.toThrowError();
 });
 
 test('errors in user data are caught', async () => {
-  await shopCloud
+  await rewards
      // @ts-ignore
     .identifiedToken({ user_data: {} })
     .catch(() => {
-      const errors = shopCloud.getErrors();
+      const errors = rewards.getErrors();
 
       expect(Object.values(errors)).toHaveLength(4);
       expect(errors[0].user_data).toEqual('id missing.');
@@ -69,11 +69,11 @@ test('errors in user data are caught', async () => {
 });
 
 test('errors in campaign data are caught', async () => {
-  await shopCloud
+  await rewards
      // @ts-ignore
     .identifiedToken({ campaign_data: {} })
     .catch(() => {
-      const errors = shopCloud.getErrors();
+      const errors = rewards.getErrors();
 
       expect(Object.values(errors)).toHaveLength(8);
       expect(errors[0].campaign_data).toEqual('id missing.');
@@ -92,17 +92,17 @@ test('token is decoded successfully', async () => {
     user_data: getPersonData(),
     campaign_data: getCampaignData()
   };
-  const token = await shopCloud.identifiedToken(initialPayload);
+  const token = await rewards.identifiedToken(initialPayload);
 
-  const decodedPayload = await shopCloud.readToken(token);
+  const decodedPayload = await rewards.readToken(token);
 
   expect(decodedPayload).toEqual(initialPayload);
 });
 
 test('partner token has partner token type', async () => {
-  const token = await shopCloud.getPartnerToken();
+  const token = await rewards.getPartnerToken();
 
-  const payload = await shopCloud.readToken(token);
+  const payload = await rewards.readToken(token);
 
   expect(payload.type).toEqual('partner');
 });
@@ -114,9 +114,9 @@ test('token with group data is successfully decoded', async () => {
     group_data: getGroupData()
   };
 
-  const token = await shopCloud.identifiedToken(initialPayload);
+  const token = await rewards.identifiedToken(initialPayload);
 
-  const decodedPayload = await shopCloud.readToken(token);
+  const decodedPayload = await rewards.readToken(token);
 
   expect(decodedPayload).toEqual(initialPayload);
 });
