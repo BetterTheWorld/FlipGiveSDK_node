@@ -1,8 +1,8 @@
 # FlipgiveSDK
 
-## Shop Cloud
+## Rewards
 
-Shop Cloud _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashback store. If you would like to know more please visit www.flipgive.com/cloud or contact us at partners@flipgive.com.
+Rewards _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashback store. If you would like to know more please visit www.flipgive.com/cloud or contact us at partners@flipgive.com.
 
 ### Links of Interest
 
@@ -11,29 +11,29 @@ Shop Cloud _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashba
 
 ### Installation
 
-To begin using `@flipgive/shop-cloud`, you should have obtained an `ID` and `Secret` pair from FlipGive, store these securely so that they are accessible in your application (env variables, etc). If you haven't received credentials, please contact us at partners@flipgive.com.
+To begin using `@flipgive/rewards`, you should have obtained an `ID` and `Secret` pair from FlipGive, store these securely so that they are accessible in your application (env variables, etc). If you haven't received credentials, please contact us at partners@flipgive.com.
 
-Add the @flipgive/shopcloud package to your package.json:
+Add the @flipgive/rewards package to your package.json:
 
 ```bash
-npm install --save @flipgive/shopcloud git+https://github.com/BetterTheWorld/FlipGiveSDK_node.git
+npm install --save @flipgive/rewards git+https://github.com/BetterTheWorld/FlipGiveSDK_node.git
 ```
 
-After you have installed the package include the code below to initialize the ShopCloud:
+After you have installed the package include the code below to initialize the Rewards:
 
 ```javascript
-import ShopCloud from '@flipgive/shopcloud';
+import Rewards from '@flipgive/rewards';
 
-ShopCloud(shop_cloud_id, shop_cloud_secret).then(shopCloud => { ... });
+Rewards(shop_cloud_id, shop_cloud_secret).then(rewards => { ... });
 ```
 
-ShopCloud is now ready to use.
+Rewards is now ready to use.
 
 ### Usage
 
-The main purpose of `@flipgive/shopcloud` is to generate Tokens to gain access to FlipGive's Shop Cloud API. There are 6 methods on the package's public API.
+The main purpose of `@flipgive/rewards` is to generate Tokens to gain access to FlipGive's Rewards API. There are 6 methods on the package's public API.
 
-#### ShopCloud
+#### Rewards
 This method is used to initialize the SDK, as described on the setup section of this document. It takes 2 arguments, the `shop_cloud_id` and the `shop_cloud_secret`.
 
 #### readToken
@@ -42,7 +42,7 @@ This method is used to decode a token that has been generated with your credenti
 ```javascript
 token = "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..demoToken.g8PZPWb1KDFcAkTsufZq0w@A2DE537C";
 
-shopCloud.readToken(token).then(payload => { console.log(payload) });
+rewards.readToken(token).then(payload => { console.log(payload) });
 => { "user_data": { "id": 1, "name": "Emmett Brown", "email": "ebrown@time.ca", "country": "USA" } }
 ```
 
@@ -57,7 +57,7 @@ payload = {
   organization_data: organization_data
 };
 
-shopCloud.identifiedToken(payload).then(token => { console.log(token) });
+rewards.identifiedToken(payload).then(token => { console.log(token) });
 => "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..demoToken.g8PZPWb1KDFcAkTsufZq0w@A2DE537C"
 ```
 
@@ -127,15 +127,15 @@ payload = {
   user_data: user_data
 };
 
-shopCloud.validIdentified(payload);
+rewards.validIdentified(payload);
 => true
 ```
 
 #### getPartnerToken
-This method is used to generate a token that can **only** be used by the Shop Cloud partner (that's you) to access reports and other API endpoints. It is only valid for an hour.
+This method is used to generate a token that can **only** be used by the Rewards partner (that's you) to access reports and other API endpoints. It is only valid for an hour.
 
 ```javascript
-shopCloud.getPartnerToken().then(token => console.log(token));
+rewards.getPartnerToken().then(token => console.log(token));
 => "eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4R0NNIn0..demoToken.h9QXQEn2LFGVSlTdiGXW1e@A2DE537C"
 ```
 
@@ -149,11 +149,11 @@ payload = {
   user_data: user_data
 };
 
-shopCloud.validIdentified(payload);
+rewards.validIdentified(payload);
 
 # InvalidPayloadException
 
-shopCloud.getErrors();
+rewards.getErrors();
 
 => [{ "user_data": "Country must be one of: 'CAN, USA'." }]
 ```
