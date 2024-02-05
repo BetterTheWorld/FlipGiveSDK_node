@@ -25,6 +25,7 @@
   "homepage": "https://github.com/BetterTheWorld/FlipGiveSDK_node#readme",
   "description": "",
   "dependencies": {
+    "@flipgive/rewards": "github:BetterTheWorld/FlipGiveSDK_node",
     "jose": "^5.2.1"
   },
   "devDependencies": {
