@@ -2,7 +2,7 @@
 
 ## Rewards
 
-Rewards _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashback store. If you would like to know more please visit www.flipgive.com/cloud or contact us at partners@flipgive.com.
+Rewards _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashback store. If you would like to know more please contact us at partners@flipgive.com.
 
 ### Links of Interest
 
@@ -16,7 +16,7 @@ To begin using `@flipgive/rewards`, you should have obtained an `ID` and `Secret
 Add the @flipgive/rewards package to your package.json:
 
 ```bash
-npm install --save @flipgive/rewards git+https://github.com/BetterTheWorld/FlipGiveSDK_node.git
+npm install --save @flipgive/rewards
 ```
 
 After you have installed the package include the code below to initialize the Rewards:
@@ -24,7 +24,7 @@ After you have installed the package include the code below to initialize the Re
 ```javascript
 import Rewards from '@flipgive/rewards';
 
-Rewards(shop_cloud_id, shop_cloud_secret).then(rewards => { ... });
+Rewards(rewards_id, rewards_secret).then(rewards => { ... });
 ```
 
 Rewards is now ready to use.
@@ -34,7 +34,7 @@ Rewards is now ready to use.
 The main purpose of `@flipgive/rewards` is to generate Tokens to gain access to FlipGive's Rewards API. There are 6 methods on the package's public API.
 
 #### Rewards
-This method is used to initialize the SDK, as described on the setup section of this document. It takes 2 arguments, the `shop_cloud_id` and the `shop_cloud_secret`.
+This method is used to initialize the SDK, as described on the setup section of this document. It takes 2 arguments, the `rewards_id` and the `rewards_secret`.
 
 #### readToken
 This method is used to decode a token that has been generated with your credentials. It takes a single string as an argument and, if able to decode the token, it will return a hash.
