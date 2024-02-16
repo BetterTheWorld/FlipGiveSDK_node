@@ -2,7 +2,7 @@
 
 ## Rewards
 
-Rewards _(The Shop)_ is [FlipGive's](https://www.flipgive.com) drop-in cashback store. If you would like to know more please contact us at partners@flipgive.com.
+Rewards is [FlipGive's](https://www.flipgive.com) drop-in cashback program. If you would like to know more please contact us at partners@flipgive.com.
 
 ### Links of Interest
 
@@ -19,7 +19,7 @@ Add the @flipgive/rewards package to your package.json:
 npm install --save @flipgive/rewards
 ```
 
-After you have installed the package include the code below to initialize the Rewards:
+After you have installed the package include the code below to initialize the SDK:
 
 ```javascript
 import Rewards from '@flipgive/rewards';
@@ -27,7 +27,7 @@ import Rewards from '@flipgive/rewards';
 Rewards(rewards_id, rewards_secret).then(rewards => { ... });
 ```
 
-Rewards is now ready to use.
+The SDK is now ready to use.
 
 ### Usage
 
@@ -63,11 +63,17 @@ rewards.identifiedToken(payload).then(token => { console.log(token) });
 
 The variable in this example uses other variables, (user_data, campaign_data, etc.). let's look at each one of them:
 
-- `user_data`: **required** when `campaign_data` is not present in the payload, otherwise optional. It represents the user using the Shop, and must contain:
+- `user_data`: **required** when `campaign_data` is not present in the payload, otherwise optional. It represents the user using the Shop, and  contains the following information:
   - `id`: **required**. A string representing the user's ID in your system.
   - `email`: **required**. A string with the user's email.
   - `name`: **required**. A string with the user's name.
   - `country`: **required**. A string with the ISO code of the user's country, which must be 'CAN' or 'USA' at this time.
+  - `city`: *optional*. A string with the user's city.
+  - `state`: *optional*. A string with the user's state. It must be a 2 letter code. You can see a list of values [here](https://github.com/BetterTheWorld/FlipGiveSDK_Ruby/blob/main/states.yml).
+  - `postal_code`: A string with the user's postal code. It must match Regex `/\d{5}/` for the USA or `/[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d/` for Canada.
+  - `latitude`: *optional*. A float with the user's latitude in decimal degree format. Without accompanying `:longitude`, latitude will be ignored.
+  - `longitude`: *optional*. A float with the user's longitude in decimal degree format. Without accompanying `:latitude`, longitude will be ignored.
+  - `image_url`: *optional*. A string containing the URL for the user's avatar.
 
   ```javascript
   user_data = {
@@ -77,14 +83,23 @@ The variable in this example uses other variables, (user_data, campaign_data, et
     country: "USA"
   };
   ```
+Optional fields of invalid formats will not be validated but will be ignored.
 
-- `campaign_data`: Required when user_data is not present in the payload, otherwise optional. It represents the fundraising campaign and it must contain:
+- `campaign_data`: Required when user_data is not present in the payload, otherwise optional. It represents the fundraising campaign and contains the following information:
 
-  - **`id`: required** A string representing the user's ID in your system.
-  - **`name`: required** A string  with the campaign's email.
-  - **`category`: required** A string  with the campaign's category. We will try to match it with one of our existing categories, or assign a default. You can see a list of our categories [here](https://github.com/BetterTheWorld/FlipGiveSDK_PHP/blob/main/categories.txt).
-  - **`country`: required** A string  with the ISO code of the campaign's country, which must be 'CAD' or 'USA' at this time.
-  - **`admin_data`: required** The user information for the campaign's admin. It must contain the same information as `$user_data`
+  - `id`: **required** A string representing the user's ID in your system.
+  - `name`: **required** A string  with the campaign's email.
+  - `category`: **required** A string  with the campaign's category. We will try to match it with one of our existing categories, or assign a default. You can see a list of our categories [here](https://github.com/BetterTheWorld/FlipGiveSDK_Ruby/blob/main/categories.txt).
+  - `country`: **required** A string  with the ISO code of the campaign's country, which must be 'CAD' or 'USA' at this time.
+  - `admin_data`: **required** The user information for the campaign's admin. It must contain the same information as `user_data`
+  - `city`: *optional*. A string with the campaign's city.
+  - `state`: *optional*. A string with the campaign's state. It must be a 2 letter code. You can see a list [here](https://github.com/BetterTheWorld/FlipGiveSDK_Ruby/blob/main/states.yml).
+  - `postal_code`: A string with the campaign's postal code. It must match Regex `/\d{5}/` for the USA or `/[a-zA-Z]\d[a-zA-Z]\d[a-zA-Z]\d/` for Canada.
+  - `latitude`: *optional*. A float with the campaign's latitude in decimal degree format.
+  - `longitude`: *optional*. A float with the campaign's longitude in decimal degree format.
+  - `image_url`: *optional*. A string containing the URL for the campaign's image, if any.
+
+Optional fields of invalid formats will not be validated but will be ignored.
 
   ```javascript
   campaign_data = {
@@ -98,7 +113,7 @@ The variable in this example uses other variables, (user_data, campaign_data, et
 
 - `group_data`: *Always optional*. Groups are aggregators for users within a campaign. For example, a group can be a Player on a sport's team and the users would be the people supporting them.
   - `name`: **required**. A string with the group's name.
-  - `player_number`: *Optional*. A sport's player number on the team.
+  - `player_number`: *optional*. A sport's player number on the team.
 
   ```javascript
   group_data = {
@@ -109,13 +124,30 @@ The variable in this example uses other variables, (user_data, campaign_data, et
 - `organization_data`: Always optional. Organizations are used to group campaigns. As an example: A School (organization) has many Grades (campaigns), with Students (groups) and Parents (users) shopping to support their student.
   - `id`: **required**. A string with the organization's ID.
   - `name`: **required**. A string with the organization's name.
-  - `organization_admin`: **required**. The user information for the organization's admin. It must contain the same information as `$user_data`
+  - `organization_admin`: **required**. The user information for the organization's admin. It must contain the same information as `user_data`
 
   ```javascript
   organization_data = {
     id: 980,
     name: "Back to the Future",
     admin_data: user_data
+  };
+  ```
+
+- `utm_data`:  Always optional. UTM data will be saved when a campaign and/or user is created.
+  - `utm_medium`: A string representing utm_medium.
+  - `utm_campaign`: A string representing utm_campaign.
+  - `utm_term`: A string representing utm_term.
+  - `utm_content`: A string representing utm_content.
+  - `utm_channel`: A string representing utm_channel.
+
+  ```javascript
+  utm_data = {
+    utm_medium: "Universal Pictures",
+    utm_campaign: "Movie",
+    utm_term: "Time, Travel",
+    utm_content: "Image",
+    utm_channel: "Time"
   };
   ```
 

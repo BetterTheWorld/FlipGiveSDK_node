@@ -69,6 +69,12 @@ const JweHelper = async (secret) => {
  * @property {string} email
  * @property {string} name
  * @property {string} country
+ * @property {string} [city]
+ * @property {string} [state]
+ * @property {string} [postal_code]
+ * @property {number} [latitude]
+ * @property {number} [longitude]
+ * @property {string} [image_url]
  */
 
 /**
@@ -78,6 +84,12 @@ const JweHelper = async (secret) => {
  * @property {string} category
  * @property {string} country
  * @property {UserData} admin_data
+ * @property {string} [city]
+ * @property {string} [state]
+ * @property {string} [postal_code]
+ * @property {number} [latitude]
+ * @property {number} [longitude]
+ * @property {string} [image_url]
  */
 
 /**
@@ -94,11 +106,21 @@ const JweHelper = async (secret) => {
  */
 
 /**
+ * @typedef UtmData
+ * @property {string} utm_medium
+ * @property {string} utm_campaign
+ * @property {string} utm_term
+ * @property {string} utm_content
+ * @property {string} utm_channel
+ */
+
+/**
  * @typedef Payload
  * @property {CampaignData} [campaign_data]
  * @property {GroupData} [group_data]
  * @property {OrganizationData} [organization_data]
  * @property {UserData} [user_data]
+ * @property {UtmData} [utm_data]
  * @property {string} [type]
  * @property {number} [expires]
  */
