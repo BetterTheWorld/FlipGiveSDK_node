@@ -23,6 +23,7 @@ const JweHelper = async (secret) => {
     );
 
     return jwe.setProtectedHeader({ alg: 'dir', enc: 'A128GCM' })
+      .setInitializationVector(new Uint8Array([0xA6, 0x4D, 0x0F, 0x12, 0x02, 0xBC, 0x14, 0xEA, 0x2E, 0xCC, 0x91, 0x8B]))
       .encrypt(key);
   };
 
