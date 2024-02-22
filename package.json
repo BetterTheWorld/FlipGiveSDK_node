@@ -1,6 +1,6 @@
 {
   "name": "@flipgive/rewards",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "exports": {
     "import": "./dist/mjs/index.js",
     "require": "./dist/cjs/index.js"
